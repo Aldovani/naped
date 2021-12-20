@@ -1,0 +1,47 @@
+.container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 150px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.title {
+  font-size: 48px;
+  line-height: 60px;
+  font-family: var(--lexend);
+  color: var(--color-white);
+  max-width: 500px;
+  text-align: start;
+}
+.description {
+  font-family: var(--inter);
+  font-size: 20px;
+  line-height: 34px;
+  color: var(--color-quaternary);
+  max-width: 500px;
+  margin: 20px 0 40px;
+}
+
+.button {
+  background: var(--color-primary);
+  font-family: var(--lexend);
+  font-size: 18px;
+  line-height: 34px;
+  border: 0;
+  color: var(--color-white);
+  border-radius: 5px;
+  padding: 5px 25px;
+  cursor: pointer;
+}
+
+.descriptionImage {
+  align-self: center;
+  color: var(--color-quaternary);
+  font-family: var(--inter);
+  font-size: 20px;
+  line-height: 30px;
+  margin: 44px auto 0;
+  max-width: 300px;
+  text-align: center;
+}

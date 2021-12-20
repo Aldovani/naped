@@ -1,0 +1,52 @@
+.containerImage {
+  position: relative;
+}
+.shadow {
+  width: 100%;
+  top: 0;
+  left: 0;
+  position: absolute;
+  height: 100%;
+  z-index: 3;
+  pointer-events: none;
+  background: linear-gradient(360deg, #13131f 0%, rgba(19, 19, 31, 0) 100%);
+
+}
+
+.maxHeight{
+  max-height: 250px;
+}
+
+
+.textImage {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  color: var(--color-white);
+  font-family: var(--lexend);
+  z-index: 4;
+  font-weight: normal;
+  font-style: normal;
+}
+
+.textSizeSm {
+  text-align: start;
+  font-size: 0.813rem;
+  line-height: 1.25rem;
+  padding: 20px 15px;
+
+}
+
+.category {
+  position: absolute;
+  top: 10px;
+  background: var(--color-primary);
+  color: var(--color-white);
+  font-size: 0.875rem;
+  line-height: 1.063rem;
+  left: 10px;
+  padding: 4px 18px;
+  z-index: 3;
+  border-radius: 3px;
+}

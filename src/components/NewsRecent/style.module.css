@@ -1,0 +1,20 @@
+.titleNewsResents{
+  font-family: var(--lexend);
+  font-size: 24px;
+  color: var(--color-white);
+  border-bottom: 3px solid var(--color-primary);
+  line-height: 20px;
+  font-weight: normal;
+  font-style: normal;
+  display: inline-block;
+  padding-bottom: 13px;
+  margin-bottom: 55px;
+}
+.grid{
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 300px));
+  gap:  40px 50px;
+  align-items: center;
+  justify-content: center;
+
+}

@@ -1,0 +1,24 @@
+.footer{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 90px;
+  flex-direction: column;
+  padding-bottom: 40px;
+}
+.copyright{
+  font-family: var(--inter);
+  font-size: 1rem;
+  line-height: 1.5rem;
+  color: var(--color-quaternary);
+  align-self: center;
+  text-align: center;
+ max-width: 500px;
+
+}
+
+.logo{
+  color: var(--color-primary);
+  font-size: 1.5rem;
+  font-family: var(--lexend);
+}
