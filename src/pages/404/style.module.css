@@ -1,9 +1,10 @@
 .container {
   display: flex;
   justify-content: space-between;
-  margin-top: 150px;
   flex-wrap: wrap;
   align-items: center;
+  gap: 50px 0;
+  padding: 0 0 50px 0;
 }
 
 .title {
@@ -44,4 +45,20 @@
   margin: 44px auto 0;
   max-width: 300px;
   text-align: center;
+}
+
+@media(max-width:350px){
+  .title {
+    font-size: 32px;
+    line-height: 40px;
+  }
+  .description {
+    font-size: 16px;
+    line-height: 28px;
+  }
+  .descriptionImage {
+    font-size: 16px;
+    line-height: 28px;
+  }
+  
 }

@@ -45,7 +45,7 @@ const News: React.FC = ({ news, newsRecent }: any) => {
 
         <p className={styles.textNews}>{text2[0].text}</p>
 
-        <img src={image2.url} alt={image2.alt} width={1200}  height={450} />
+        <Image src={image2.url} alt={image2.alt} width={1200}  height={450} />
         <p className={styles.textNews}>{text3[0].text}</p>
       </main>
 

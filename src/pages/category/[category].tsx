@@ -10,24 +10,26 @@ import useDebounce from "../../hooks/useDebounce ";
 
 const Category: React.FC = ({ resultNews, category, totalPages }: any) => {
   const [input, setInput] = useState("");
+
   const [newsFiltered, setNewsFiltered] = useState([]);
   const [open, setOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [news, setNews] = useState(resultNews);
-  const [pages, setPages] = useState(() => {
-    const pages = [];
-    for (let i = 1; i <= totalPages; i++) {
-      pages.push(i);
-    }
-    return pages;
-  });
+
   useEffect(() => {
     setNews(resultNews);
     setInput("");
     setCurrentPage(1);
-  }, [resultNews,category]);
+  }, [resultNews, category]);
 
   const Debounce = useDebounce(handleNews, 500);
+
+  function goToNextPage() {
+    setCurrentPage((currentPage) => currentPage + 1);
+  }
+  function goToPreviousPage() {
+    setCurrentPage((currentPage) => currentPage - 1);
+  }
 
   async function handleNews() {
     const client = Prismic.client("https://naped-desafio.prismic.io/api/v2");
@@ -48,25 +50,14 @@ const Category: React.FC = ({ resultNews, category, totalPages }: any) => {
     }
   }
 
-  async function handlePage(page: number) {
-    const client = Prismic.client("https://naped-desafio.prismic.io/api/v2");
-
-    const news = await client.query(
-      Prismic.Predicates.fulltext("my.news.category", category),
-      {
-        pageSize: 2, page: page,
-        orderings: "[document.last_publication_date  desc]"
-
-      }
-    );
-    setNews(news.results);
-  }
   return (
     <>
       <Head>
         <title>Naped {category}</title>
       </Head>
-      <section className={styles.containerImage}>
+      <section className={styles.containerImage}
+       
+      >
         <div className={styles.shadowBanner} />
         <img
           src={`/assets/${category}.jpg`}
@@ -82,21 +73,23 @@ const Category: React.FC = ({ resultNews, category, totalPages }: any) => {
           </p>
         </div>
       </section>
-      <main>
+      <main
+
+      >
         <form
           className={styles.form}
           onSubmit={(e) => {
             e.preventDefault();
             handleNews();
           }}
-          onFocus={() => setOpen(true)}
-          onBlur={() => setOpen(false)}
+        
         >
           <input
             value={input}
             onChange={(e) => {
               setInput(e.target.value);
               Debounce();
+              setOpen(true);
             }}
             type="text"
             className={styles.input}
@@ -105,19 +98,20 @@ const Category: React.FC = ({ resultNews, category, totalPages }: any) => {
           <button className={styles.button}>
             <img src="/assets/busca.svg" alt="search" />
           </button>
-          <div className={styles.results}>
-            <ul>
-              {input.trim() !== "" && open
-                ? newsFiltered?.map((news: any, i) => {
-                    return (
-                      <Link href={`/news/${news.uid}`} key={i}>
-                        <a>
-                          <li>{news.data.title[0].text}</li>
-                        </a>
-                      </Link>
-                    );
-                  })
-                : null}
+          <div className={styles.results}   
+          onMouseLeave={() => setOpen(false)}>
+            <ul  >
+              {input.trim() !== "" &&
+                open &&
+                newsFiltered?.map((news: any, i) => {
+                  return (
+                    <Link href={`/news/${news.uid}`} key={i}>
+                      <a>
+                        <li>{news.data.title[0].text}</li>
+                      </a>
+                    </Link>
+                  );
+                })}
               {open && newsFiltered.length == 0 && input.trim() !== "" && (
                 <li>Não encontrado </li>
               )}
@@ -140,40 +134,29 @@ const Category: React.FC = ({ resultNews, category, totalPages }: any) => {
           <button
             className={styles.buttonPages}
             disabled={currentPage === 1}
-            onClick={() => {
+            onClick={async () => {
               if (currentPage > 1) {
-                setCurrentPage(currentPage - 1);
-                handlePage(currentPage);
+                goToPreviousPage();
+                setNews((await getNewsPage(currentPage - 1, category)).results);
+                console.log(news);
               }
             }}
           >
             <img src="/assets/left.svg" alt="" />
           </button>
 
-          {pages.map((page) => (
-            <button
-              key={page}
-              className={`${styles.buttonPages} ${
-                page === currentPage ? styles.pageCurrent : ""
-              }`}
-              onClick={() => {
-                setCurrentPage(page);
-                handlePage(page);
-                alert("teste");
-
-              }}
-            >
-              {page}
-            </button>
-          ))}
+          <span>
+            <span className={styles.pageCurrent}>{currentPage} </span>
+            de {totalPages}
+          </span>
 
           <button
             className={styles.buttonPages}
             disabled={currentPage === totalPages}
-            onClick={() => {
+            onClick={async () => {
               if (currentPage < totalPages) {
-                setCurrentPage(currentPage + 1);
-                handlePage(currentPage);
+                goToNextPage();
+                setNews((await getNewsPage(currentPage + 1, category)).results);
               }
             }}
           >
@@ -193,18 +176,7 @@ export async function getServerSideProps(context) {
   const categories = ["animes", "series", "games", "filmes"];
 
   if (categories.includes(category)) {
-    const client = Prismic.client("https://naped-desafio.prismic.io/api/v2");
-
-    const news = await client.query(
-      Prismic.Predicates.fulltext("my.news.category", category),
-      {
-        pageSize: 12,
-        page: 1,
-        orderings: "[document.last_publication_date  desc]"
-      }
-    );
-
-    console.log(news);
+    const news = await getNewsPage(1, category);
     return {
       props: {
         resultNews: news.results,
@@ -219,4 +191,18 @@ export async function getServerSideProps(context) {
       destination: "/404",
     },
   };
+}
+
+async function getNewsPage(page: number, category: string) {
+  const client = Prismic.client("https://naped-desafio.prismic.io/api/v2");
+
+  const news = await client.query(
+    Prismic.Predicates.fulltext("my.news.category", category),
+    {
+      pageSize: 12,
+      page: page,
+      orderings: "[document.last_publication_date  desc]",
+    }
+  );
+  return news;
 }
