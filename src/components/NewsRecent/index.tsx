@@ -2,22 +2,23 @@
 import React from "react";
 import styles from "./style.module.css";
 import CardNews from "../CardNews";
+import { NewsRecentProps } from "../../types";
 
-const NewsRecent = ({ news }: any) => {
+
+
+const NewsRecent = ({ newsRecent  }:NewsRecentProps) => {
   return (
     <section>
       <h2 className={styles.titleNewsResents}>Notícias mais recentes</h2>
       <div className={styles.grid}>
-        {news?.map((item, index) => {
-          const data = item.data;
-
+        {newsRecent?.map(({ data, uid }, index) => {
           return (
             <CardNews
-              urlNews={item.uid}
+              urlNews={uid}
               key={index}
               title={data.title[0].text}
               urlImage={data.image.url}
-              category={data.category[0].text}
+        
             />
           );
         })}

@@ -7,14 +7,20 @@ import Head from "next/head";
 import Link from "next/link";
 import Prismic from "prismic-javascript";
 import useDebounce from "../../hooks/useDebounce ";
+import { News} from "../../types";
 
-const Category: React.FC = ({ resultNews, category, totalPages }: any) => {
+type CategoryProps = {
+  resultNews: News[];
+  category: string;
+  totalPages: number;
+}
+
+const Category: React.FC<CategoryProps> = ({ resultNews, category, totalPages }) => {
   const [input, setInput] = useState("");
-
   const [newsFiltered, setNewsFiltered] = useState([]);
   const [open, setOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [news, setNews] = useState(resultNews);
+  const [news, setNews] = useState<News[]>(resultNews);
 
   useEffect(() => {
     setNews(resultNews);
@@ -55,9 +61,7 @@ const Category: React.FC = ({ resultNews, category, totalPages }: any) => {
       <Head>
         <title>Naped {category}</title>
       </Head>
-      <section className={styles.containerImage}
-       
-      >
+      <section className={styles.containerImage}>
         <div className={styles.shadowBanner} />
         <img
           src={`/assets/${category}.jpg`}
@@ -73,16 +77,13 @@ const Category: React.FC = ({ resultNews, category, totalPages }: any) => {
           </p>
         </div>
       </section>
-      <main
-
-      >
+      <main>
         <form
           className={styles.form}
           onSubmit={(e) => {
             e.preventDefault();
             handleNews();
           }}
-        
         >
           <input
             value={input}
@@ -98,12 +99,11 @@ const Category: React.FC = ({ resultNews, category, totalPages }: any) => {
           <button className={styles.button}>
             <img src="/assets/busca.svg" alt="search" />
           </button>
-          <div className={styles.results}   
-          onMouseLeave={() => setOpen(false)}>
-            <ul  >
+          <div className={styles.results} onMouseLeave={() => setOpen(false)}>
+            <ul>
               {input.trim() !== "" &&
                 open &&
-                newsFiltered?.map((news: any, i) => {
+                newsFiltered?.map((news: News, i) => {
                   return (
                     <Link href={`/news/${news.uid}`} key={i}>
                       <a>
@@ -120,7 +120,7 @@ const Category: React.FC = ({ resultNews, category, totalPages }: any) => {
         </form>
 
         <div className={styles.grid}>
-          {news?.map((news: any) => (
+          {news?.map((news) => (
             <CardNews
               key={news.id}
               title={news.data.title[0].text}
@@ -137,8 +137,11 @@ const Category: React.FC = ({ resultNews, category, totalPages }: any) => {
             onClick={async () => {
               if (currentPage > 1) {
                 goToPreviousPage();
-                setNews((await getNewsPage(currentPage - 1, category)).results);
-                console.log(news);
+                const { results } = await getNewsPage(
+                  currentPage - 1,
+                  category
+                );
+                setNews(results as News[]);
               }
             }}
           >
@@ -156,7 +159,11 @@ const Category: React.FC = ({ resultNews, category, totalPages }: any) => {
             onClick={async () => {
               if (currentPage < totalPages) {
                 goToNextPage();
-                setNews((await getNewsPage(currentPage + 1, category)).results);
+                const { results } = await getNewsPage(
+                  currentPage + 1,
+                  category
+                );
+                setNews(results as News[]);
               }
             }}
           >

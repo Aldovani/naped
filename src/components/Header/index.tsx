@@ -6,7 +6,7 @@ import Link from "next/link";
 const Header: React.FC = () => {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
-  // console.log(router); 
+
   return (
     <header className={styles.header}>
       <h1 className={styles.logo}>Naped</h1>

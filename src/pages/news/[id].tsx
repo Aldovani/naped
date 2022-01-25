@@ -6,8 +6,14 @@ import Footer from "../../components/Footer";
 import NewsRecent from "../../components/NewsRecent";
 import { parseISO, format } from "date-fns";
 import ptBr from "date-fns/locale/pt-BR";
+import { News } from "../../types";
 
-const News: React.FC = ({ news, newsRecent }: any) => {
+type NewsProps = {
+  newsCurrent: News;
+  newsRecent: News[];
+}
+
+const News: React.FC<NewsProps> = ({ newsCurrent, newsRecent }) => {
   const {
     title,
     image,
@@ -17,16 +23,15 @@ const News: React.FC = ({ news, newsRecent }: any) => {
     text3,
     category,
     date,
-    description,
-  } = news.data;
-  console.log(news.data);
+    description
+  } = newsCurrent.data;
+
   const dateFormatted = format(parseISO(date), "dd MMMM yyyy", {
     locale: ptBr,
   })
     .split(" ")
     .join(" de ");
-  
-  
+
   return (
     <>
       <section>
@@ -45,11 +50,11 @@ const News: React.FC = ({ news, newsRecent }: any) => {
 
         <p className={styles.textNews}>{text2[0].text}</p>
 
-        <Image src={image2.url} alt={image2.alt} width={1200}  height={450} />
+        <Image src={image2.url} alt={image2.alt} width={1200} height={450} />
         <p className={styles.textNews}>{text3[0].text}</p>
       </main>
 
-      <NewsRecent news={newsRecent} />
+      <NewsRecent newsRecent={newsRecent} />
 
       <Footer />
     </>
@@ -76,7 +81,7 @@ export async function getServerSideProps(context) {
     if (news.results_size) {
       return {
         props: {
-          news: news.results[0],
+          newsCurrent: news.results[0],
           newsRecent: newsRecent.results,
         },
       };

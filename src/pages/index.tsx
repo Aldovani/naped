@@ -5,8 +5,15 @@ import CardNews from "../components/CardNews";
 import Footer from "../components/Footer";
 import NewsRecent from "../components/NewsRecent";
 import styles from "../styles/Home.module.css";
+import { News } from "../types";
 
-export default function Home({ newsRecent }) {
+
+type HomeProps = {
+  newsRecent: News[];
+}
+
+
+export default function Home({ newsRecent }:HomeProps) {
   return (
     <>
       <section className={styles.box}>
@@ -230,7 +237,7 @@ export default function Home({ newsRecent }) {
           </aside>
         </div>
 
-        <NewsRecent news={newsRecent} />
+        <NewsRecent    newsRecent={newsRecent} />
       </main>
 
       <Footer />
@@ -247,6 +254,9 @@ export async function getServerSideProps() {
       pageSize: 9,
     }
   );
+
+
+  
 
   return {
     props: {
