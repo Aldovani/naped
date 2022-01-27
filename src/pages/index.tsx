@@ -216,19 +216,19 @@ export default function Home({ newsRecent }:HomeProps) {
             </h2>
             <div className={styles.containerNewsPopular}>
               <CardNews
-                urlNews="/"
+                urlNews=""
                 title="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
                 category="Lorem"
                 urlImage="/assets/picture_11.png"
               />
               <CardNews
-                urlNews="/"
+                urlNews=""
                 title="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
                 category="Lorem"
                 urlImage="/assets/picture_9.png"
               />
               <CardNews
-                urlNews="/"
+                urlNews=""
                 title="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
                 category="Lorem"
                 urlImage="/assets/picture_10.png"
