@@ -3,13 +3,14 @@
 <div align="center">
 <img src=".github/tela.png" >
 </div>
+
 ## 🚀 Tecnologias
 Esse projeto foi desenvolvido com as seguintes tecnologias:
 
-React
-Next
-TypeScript
-prismic
+- [React](https://reactjs.org/)
+- [Next](https://nextjs.org/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [prismic](https://prismic.io/)
 
 
 ## 🧪 Como executar
