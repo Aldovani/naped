@@ -2,11 +2,13 @@
 import React from "react";
 import styles from "./style.module.css";
 import CardNews from "../CardNews";
-import { NewsRecentProps } from "../../types";
+import { News } from "../../types";
 
+type NewRecentProps = {
+  newsRecent: News[];
+};
 
-
-const NewsRecent = ({ newsRecent  }:NewsRecentProps) => {
+const NewsRecent = ({ newsRecent }: NewRecentProps) => {
   return (
     <section>
       <h2 className={styles.titleNewsResents}>Notícias mais recentes</h2>
@@ -18,7 +20,6 @@ const NewsRecent = ({ newsRecent  }:NewsRecentProps) => {
               key={index}
               title={data.title[0].text}
               urlImage={data.image.url}
-        
             />
           );
         })}
